@@ -130,3 +130,10 @@ DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 AUTH_USER_MODEL = 'Users.CustomUser'
 
 LOGIN_URL = '/login/'
+
+# for email Verification and email related things
+EMAIL_USE_TLS = True
+EMAIL_HOST = 'smtp.gmail.com'
+EMAIL_HOST_USER = 'datasets.users@gmail.com'
+EMAIL_HOST_PASSWORD = 'mEU*YC9U'
+EMAIL_PORT = 587
