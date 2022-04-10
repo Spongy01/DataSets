@@ -1,0 +1,458 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Homepage</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-1BmE4kWBq78iYhFldvKuhfTAU6auU8tT94WrHftjDbrCEXSU1oBoqyl2QvZ6jIW3" crossorigin="anonymous">
+    <link rel="stylesheet" href="{% static 'Users/styles/base.css' %}">
+    <link rel="stylesheet" href=" {% static 'Users/styles/cookie/stylesheet.css' %}">
+    <style>
+        .bg-green{
+            background-color: var(--my-green);
+        }
+        a.nav-ele, a.nav-ele:visited{
+            text-decoration: none;
+            color: white;
+            font-size: 1.1em;
+        }
+        a.nav-ele:hover, a.nav-ele:active{
+            color: #FFFFFFA5
+        }
+        a.navbar-brand-custom , a.navbar-brand-custom:hover, a.navbar-brand-custom:active, a.navbar-brand-custom:visited{
+            text-decoration: none;
+            color: white;
+            font-size: 1.6em;
+        }
+        .searchmenu{
+            width: 60vw;
+        }
+        #searchBar{
+            width:80%;
+            border-bottom-left-radius: 15px;
+            border-top-left-radius: 15px;
+            border-width: 0px;
+            color: gray;
+            margin-right: 0px !important;
+        }
+        .search-btn{
+            border-radius: 0px !important;
+            margin-left: 0px !important;
+            border-bottom-right-radius: 15px !important;
+            border-top-right-radius: 15px !important;
+        }
+        .sidebar{
+            position: fixed;
+            top:0;
+            bottom: 0;
+            left: 0;
+            z-index: 100;
+            padding-top: 135px;
+
+        }
+        .position-sticky {
+            position: -webkit-sticky!important;
+            position: sticky!important;
+        }
+        .nav-link.active{
+            color: var(--my-green-2);
+            background-color: white;
+        }
+        .nav-link:hover{
+            background-color: var(--my-green-3);
+            color: white;
+        }
+
+
+        .nav-link{
+            font-weight: 500;
+            font-size: 1.3em;
+            color: white;
+            padding-bottom: 10px;
+        }
+
+        .group-sep{
+            /*color: #959393FF;*/
+            color: var(--my-bluish);
+            font-size: 1.3em;
+            margin-top: 50px;
+            margin-bottom: 30px;
+        }
+        .pinned{
+            font-size: 1.05rem;
+        }
+        .greetings{
+            font-family:cookieregular,sans-serif;
+            color: var(--my-bluish-2);
+
+        }
+        .sticky{
+            position: sticky;
+            top:60px;
+        }
+        .mycard{
+            margin: 10px;
+            background-color: #F2F2F2;
+            border-radius: 10px;
+        }
+
+        .btn-green{
+            color: #94E75EFF;
+            border-radius: 5px;
+            border: #94E75EFF solid 2px;
+            text-decoration: none;
+
+        }
+        .btn-green:hover{
+            background-color: #94E75EFF;
+            color: white;
+
+        }
+    </style>
+</head>
+<body>
+<!--<section style="height: 100vh;">-->
+
+
+
+<header class="navbar navbar-expand-lg  bg-green sticky-top p-0 shadow">
+    <div class="container-fluid m-2 ">
+        <div class="d-flex justify-content-center">
+        <a class="navbar-brand navbar-brand-custom " href="#">DataSets</a>
+        </div>
+        <div>
+        <button class="collapsed navbar-toggler d-md-none" type="button" data-bs-toggle="collapse" data-bs-target="#sidebar" aria-expanded="false" aria-controls="collapseExample">
+            <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-list" viewBox="0 0 16 16">
+                <path fill-rule="evenodd" d="M2.5 12a.5.5 0 0 1 .5-.5h10a.5.5 0 0 1 0 1H3a.5.5 0 0 1-.5-.5zm0-4a.5.5 0 0 1 .5-.5h10a.5.5 0 0 1 0 1H3a.5.5 0 0 1-.5-.5zm0-4a.5.5 0 0 1 .5-.5h10a.5.5 0 0 1 0 1H3a.5.5 0 0 1-.5-.5z"/>
+            </svg>
+        </button>
+        </div>
+        <form method="post" action="{% url 'folder view' folder %}">
+                {% csrf_token %}
+        <div class="searchmenu d-flex">
+
+                <input type="text" name="seachBar" id="searchBar" class="form-control me-2" placeholder="search here">
+                <button type="submit" class="btn btn-success search-btn" style="border-radius: 10px">Search</button>
+
+        </div>
+            </form>
+        <div>
+            <ul class="navbar-nav me-auto">
+
+                <li class="nav-item"> <a class="nav-link nav-ele" href="{% url 'logout' %}">Logout</a></li>
+            </ul>
+        </div>
+    </div>
+</header>
+
+<div class="container-fluid ">
+    <div class="row">
+
+        <nav class="col-md-3 col-lg-2 d-md-block bg-green text-white sidebar pe-0" id="sidebar">
+        <div class="position-sticky pt-3 mainscreen">
+            <ul class="nav flex-column">
+            <li class="nav-item">
+                <a class="nav-link {% if is_dashboard == True %} active {% endif %}  d-flex justify-content-start align-items-center" aria-current="page" href="{% url 'folder view' folder %}">
+                    <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-house" viewBox="0 0 16 16">
+                        <path fill-rule="evenodd" d="M2 13.5V7h1v6.5a.5.5 0 0 0 .5.5h9a.5.5 0 0 0 .5-.5V7h1v6.5a1.5 1.5 0 0 1-1.5 1.5h-9A1.5 1.5 0 0 1 2 13.5zm11-11V6l-2-2V2.5a.5.5 0 0 1 .5-.5h1a.5.5 0 0 1 .5.5z"/>
+                        <path fill-rule="evenodd" d="M7.293 1.5a1 1 0 0 1 1.414 0l6.647 6.646a.5.5 0 0 1-.708.708L8 2.207 1.354 8.854a.5.5 0 1 1-.708-.708L7.293 1.5z"/>
+                    </svg>
+                    <div class="ps-1">
+                        DashBoard
+                    </div>
+                </a>
+            </li>
+                <li class="nav-item">
+                        <a class="nav-link d-flex justify-content-start align-items-center" aria-current="page" href="{% url 'new set' current.1 %}">
+                            <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" stroke-width="2" stroke-linejoin="round" stroke-linecap="round" class="bi bi-file-earmark-plus" viewBox="0 0 16 16">
+                                <path d="M8 6.5a.5.5 0 0 1 .5.5v1.5H10a.5.5 0 0 1 0 1H8.5V11a.5.5 0 0 1-1 0V9.5H6a.5.5 0 0 1 0-1h1.5V7a.5.5 0 0 1 .5-.5z"/>
+                                <path d="M14 4.5V14a2 2 0 0 1-2 2H4a2 2 0 0 1-2-2V2a2 2 0 0 1 2-2h5.5L14 4.5zm-3 0A1.5 1.5 0 0 1 9.5 3V1H4a1 1 0 0 0-1 1v12a1 1 0 0 0 1 1h8a1 1 0 0 0 1-1V4.5h-2z"/>
+                            </svg>
+                            <div class="ps-1">
+                                New Set
+                            </div>
+                        </a>
+                    </li>
+            <li class="nav-item">
+                <a class="nav-link {% if is_favourite == True %}active{% endif %} d-flex justify-content-start align-items-center" aria-current="page" href="{% url 'favourite view' folder %}">
+                    <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-heart" viewBox="0 0 16 16">
+                        <path d="m8 2.748-.717-.737C5.6.281 2.514.878 1.4 3.053c-.523 1.023-.641 2.5.314 4.385.92 1.815 2.834 3.989 6.286 6.357 3.452-2.368 5.365-4.542 6.286-6.357.955-1.886.838-3.362.314-4.385C13.486.878 10.4.28 8.717 2.01L8 2.748zM8 15C-7.333 4.868 3.279-3.04 7.824 1.143c.06.055.119.112.176.171a3.12 3.12 0 0 1 .176-.17C12.72-3.042 23.333 4.867 8 15z"/>
+                    </svg>
+                    <div class="ps-1">
+                    Favourites
+                    </div>
+                </a>
+            </li>
+             <li class="nav-item">
+                <a class="nav-link {% if is_archived == True %} active {% endif %} d-flex justify-content-start align-items-center" aria-current="page" href="{% url 'archive view' folder %}">
+                    <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-gear" viewBox="0 0 16 16">
+                        <path d="M8 4.754a3.246 3.246 0 1 0 0 6.492 3.246 3.246 0 0 0 0-6.492zM5.754 8a2.246 2.246 0 1 1 4.492 0 2.246 2.246 0 0 1-4.492 0z"/>
+                        <path d="M9.796 1.343c-.527-1.79-3.065-1.79-3.592 0l-.094.319a.873.873 0 0 1-1.255.52l-.292-.16c-1.64-.892-3.433.902-2.54 2.541l.159.292a.873.873 0 0 1-.52 1.255l-.319.094c-1.79.527-1.79 3.065 0 3.592l.319.094a.873.873 0 0 1 .52 1.255l-.16.292c-.892 1.64.901 3.434 2.541 2.54l.292-.159a.873.873 0 0 1 1.255.52l.094.319c.527 1.79 3.065 1.79 3.592 0l.094-.319a.873.873 0 0 1 1.255-.52l.292.16c1.64.893 3.434-.902 2.54-2.541l-.159-.292a.873.873 0 0 1 .52-1.255l.319-.094c1.79-.527 1.79-3.065 0-3.592l-.319-.094a.873.873 0 0 1-.52-1.255l.16-.292c.893-1.64-.902-3.433-2.541-2.54l-.292.159a.873.873 0 0 1-1.255-.52l-.094-.319zm-2.633.283c.246-.835 1.428-.835 1.674 0l.094.319a1.873 1.873 0 0 0 2.693 1.115l.291-.16c.764-.415 1.6.42 1.184 1.185l-.159.292a1.873 1.873 0 0 0 1.116 2.692l.318.094c.835.246.835 1.428 0 1.674l-.319.094a1.873 1.873 0 0 0-1.115 2.693l.16.291c.415.764-.42 1.6-1.185 1.184l-.291-.159a1.873 1.873 0 0 0-2.693 1.116l-.094.318c-.246.835-1.428.835-1.674 0l-.094-.319a1.873 1.873 0 0 0-2.692-1.115l-.292.16c-.764.415-1.6-.42-1.184-1.185l.159-.291A1.873 1.873 0 0 0 1.945 8.93l-.319-.094c-.835-.246-.835-1.428 0-1.674l.319-.094A1.873 1.873 0 0 0 3.06 4.377l-.16-.292c-.415-.764.42-1.6 1.185-1.184l.292.159a1.873 1.873 0 0 0 2.692-1.115l.094-.319z"/>
+                    </svg>
+                    <div class="ps-1">
+                        Archived
+                    </div>
+                </a>
+            </li>
+            <li class="nav-item">
+                <a class="nav-link d-flex justify-content-start align-items-center" aria-current="page" href="#">
+                    <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-gear" viewBox="0 0 16 16">
+                        <path d="M8 4.754a3.246 3.246 0 1 0 0 6.492 3.246 3.246 0 0 0 0-6.492zM5.754 8a2.246 2.246 0 1 1 4.492 0 2.246 2.246 0 0 1-4.492 0z"/>
+                        <path d="M9.796 1.343c-.527-1.79-3.065-1.79-3.592 0l-.094.319a.873.873 0 0 1-1.255.52l-.292-.16c-1.64-.892-3.433.902-2.54 2.541l.159.292a.873.873 0 0 1-.52 1.255l-.319.094c-1.79.527-1.79 3.065 0 3.592l.319.094a.873.873 0 0 1 .52 1.255l-.16.292c-.892 1.64.901 3.434 2.541 2.54l.292-.159a.873.873 0 0 1 1.255.52l.094.319c.527 1.79 3.065 1.79 3.592 0l.094-.319a.873.873 0 0 1 1.255-.52l.292.16c1.64.893 3.434-.902 2.54-2.541l-.159-.292a.873.873 0 0 1 .52-1.255l.319-.094c1.79-.527 1.79-3.065 0-3.592l-.319-.094a.873.873 0 0 1-.52-1.255l.16-.292c.893-1.64-.902-3.433-2.541-2.54l-.292.159a.873.873 0 0 1-1.255-.52l-.094-.319zm-2.633.283c.246-.835 1.428-.835 1.674 0l.094.319a1.873 1.873 0 0 0 2.693 1.115l.291-.16c.764-.415 1.6.42 1.184 1.185l-.159.292a1.873 1.873 0 0 0 1.116 2.692l.318.094c.835.246.835 1.428 0 1.674l-.319.094a1.873 1.873 0 0 0-1.115 2.693l.16.291c.415.764-.42 1.6-1.185 1.184l-.291-.159a1.873 1.873 0 0 0-2.693 1.116l-.094.318c-.246.835-1.428.835-1.674 0l-.094-.319a1.873 1.873 0 0 0-2.692-1.115l-.292.16c-.764.415-1.6-.42-1.184-1.185l.159-.291A1.873 1.873 0 0 0 1.945 8.93l-.319-.094c-.835-.246-.835-1.428 0-1.674l.319-.094A1.873 1.873 0 0 0 3.06 4.377l-.16-.292c-.415-.764.42-1.6 1.185-1.184l.292.159a1.873 1.873 0 0 0 2.692-1.115l.094-.319z"/>
+                    </svg>
+                    <div class="ps-1">
+                    Settings
+                    </div>
+                </a>
+            </li>
+        </ul>
+
+            <div class="d-flex group-sep justify-content-between align-items-center px-2">
+
+                <h5 class="pinned"> Pinned Datasets: </h5>
+                <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" fill="currentColor" class="bi bi-pin" viewBox="0 0 16 16">
+                    <path d="M4.146.146A.5.5 0 0 1 4.5 0h7a.5.5 0 0 1 .5.5c0 .68-.342 1.174-.646 1.479-.126.125-.25.224-.354.298v4.431l.078.048c.203.127.476.314.751.555C12.36 7.775 13 8.527 13 9.5a.5.5 0 0 1-.5.5h-4v4.5c0 .276-.224 1.5-.5 1.5s-.5-1.224-.5-1.5V10h-4a.5.5 0 0 1-.5-.5c0-.973.64-1.725 1.17-2.189A5.921 5.921 0 0 1 5 6.708V2.277a2.77 2.77 0 0 1-.354-.298C4.342 1.674 4 1.179 4 .5a.5.5 0 0 1 .146-.354zm1.58 1.408-.002-.001.002.001zm-.002-.001.002.001A.5.5 0 0 1 6 2v5a.5.5 0 0 1-.276.447h-.002l-.012.007-.054.03a4.922 4.922 0 0 0-.827.58c-.318.278-.585.596-.725.936h7.792c-.14-.34-.407-.658-.725-.936a4.915 4.915 0 0 0-.881-.61l-.012-.006h-.002A.5.5 0 0 1 10 7V2a.5.5 0 0 1 .295-.458 1.775 1.775 0 0 0 .351-.271c.08-.08.155-.17.214-.271H5.14c.06.1.133.191.214.271a1.78 1.78 0 0 0 .37.282z"/>
+                </svg>
+
+            </div>
+            <ul class="nav flex-column">
+                <li class="nav-item">
+                    <a class="nav-link pinned" aria-current="page" href="#">
+                        <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-card-list" viewBox="0 0 16 16">
+                            <path d="M14.5 3a.5.5 0 0 1 .5.5v9a.5.5 0 0 1-.5.5h-13a.5.5 0 0 1-.5-.5v-9a.5.5 0 0 1 .5-.5h13zm-13-1A1.5 1.5 0 0 0 0 3.5v9A1.5 1.5 0 0 0 1.5 14h13a1.5 1.5 0 0 0 1.5-1.5v-9A1.5 1.5 0 0 0 14.5 2h-13z"/>
+                            <path d="M5 8a.5.5 0 0 1 .5-.5h7a.5.5 0 0 1 0 1h-7A.5.5 0 0 1 5 8zm0-2.5a.5.5 0 0 1 .5-.5h7a.5.5 0 0 1 0 1h-7a.5.5 0 0 1-.5-.5zm0 5a.5.5 0 0 1 .5-.5h7a.5.5 0 0 1 0 1h-7a.5.5 0 0 1-.5-.5zm-1-5a.5.5 0 1 1-1 0 .5.5 0 0 1 1 0zM4 8a.5.5 0 1 1-1 0 .5.5 0 0 1 1 0zm0 2.5a.5.5 0 1 1-1 0 .5.5 0 0 1 1 0z"/>
+                        </svg>
+                        Dummy Set 1
+                    </a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link  pinned" aria-current="page" href="#">
+                        <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-card-list" viewBox="0 0 16 16">
+                            <path d="M14.5 3a.5.5 0 0 1 .5.5v9a.5.5 0 0 1-.5.5h-13a.5.5 0 0 1-.5-.5v-9a.5.5 0 0 1 .5-.5h13zm-13-1A1.5 1.5 0 0 0 0 3.5v9A1.5 1.5 0 0 0 1.5 14h13a1.5 1.5 0 0 0 1.5-1.5v-9A1.5 1.5 0 0 0 14.5 2h-13z"/>
+                            <path d="M5 8a.5.5 0 0 1 .5-.5h7a.5.5 0 0 1 0 1h-7A.5.5 0 0 1 5 8zm0-2.5a.5.5 0 0 1 .5-.5h7a.5.5 0 0 1 0 1h-7a.5.5 0 0 1-.5-.5zm0 5a.5.5 0 0 1 .5-.5h7a.5.5 0 0 1 0 1h-7a.5.5 0 0 1-.5-.5zm-1-5a.5.5 0 1 1-1 0 .5.5 0 0 1 1 0zM4 8a.5.5 0 1 1-1 0 .5.5 0 0 1 1 0zm0 2.5a.5.5 0 1 1-1 0 .5.5 0 0 1 1 0z"/>
+                        </svg>
+                        Dummy Set 2
+                    </a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link  pinned" aria-current="page" href="#">
+                        <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-card-list" viewBox="0 0 16 16">
+                            <path d="M14.5 3a.5.5 0 0 1 .5.5v9a.5.5 0 0 1-.5.5h-13a.5.5 0 0 1-.5-.5v-9a.5.5 0 0 1 .5-.5h13zm-13-1A1.5 1.5 0 0 0 0 3.5v9A1.5 1.5 0 0 0 1.5 14h13a1.5 1.5 0 0 0 1.5-1.5v-9A1.5 1.5 0 0 0 14.5 2h-13z"/>
+                            <path d="M5 8a.5.5 0 0 1 .5-.5h7a.5.5 0 0 1 0 1h-7A.5.5 0 0 1 5 8zm0-2.5a.5.5 0 0 1 .5-.5h7a.5.5 0 0 1 0 1h-7a.5.5 0 0 1-.5-.5zm0 5a.5.5 0 0 1 .5-.5h7a.5.5 0 0 1 0 1h-7a.5.5 0 0 1-.5-.5zm-1-5a.5.5 0 1 1-1 0 .5.5 0 0 1 1 0zM4 8a.5.5 0 1 1-1 0 .5.5 0 0 1 1 0zm0 2.5a.5.5 0 1 1-1 0 .5.5 0 0 1 1 0z"/>
+                        </svg>
+                        Dummy Set 3
+                    </a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link  pinned" aria-current="page" href="#">
+                        <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-card-list" viewBox="0 0 16 16">
+                            <path d="M14.5 3a.5.5 0 0 1 .5.5v9a.5.5 0 0 1-.5.5h-13a.5.5 0 0 1-.5-.5v-9a.5.5 0 0 1 .5-.5h13zm-13-1A1.5 1.5 0 0 0 0 3.5v9A1.5 1.5 0 0 0 1.5 14h13a1.5 1.5 0 0 0 1.5-1.5v-9A1.5 1.5 0 0 0 14.5 2h-13z"/>
+                            <path d="M5 8a.5.5 0 0 1 .5-.5h7a.5.5 0 0 1 0 1h-7A.5.5 0 0 1 5 8zm0-2.5a.5.5 0 0 1 .5-.5h7a.5.5 0 0 1 0 1h-7a.5.5 0 0 1-.5-.5zm0 5a.5.5 0 0 1 .5-.5h7a.5.5 0 0 1 0 1h-7a.5.5 0 0 1-.5-.5zm-1-5a.5.5 0 1 1-1 0 .5.5 0 0 1 1 0zM4 8a.5.5 0 1 1-1 0 .5.5 0 0 1 1 0zm0 2.5a.5.5 0 1 1-1 0 .5.5 0 0 1 1 0z"/>
+                        </svg>
+                        Dummy Set 4
+                    </a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link pinned" aria-current="page" href="#">
+                        <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-card-list" viewBox="0 0 16 16">
+                            <path d="M14.5 3a.5.5 0 0 1 .5.5v9a.5.5 0 0 1-.5.5h-13a.5.5 0 0 1-.5-.5v-9a.5.5 0 0 1 .5-.5h13zm-13-1A1.5 1.5 0 0 0 0 3.5v9A1.5 1.5 0 0 0 1.5 14h13a1.5 1.5 0 0 0 1.5-1.5v-9A1.5 1.5 0 0 0 14.5 2h-13z"/>
+                            <path d="M5 8a.5.5 0 0 1 .5-.5h7a.5.5 0 0 1 0 1h-7A.5.5 0 0 1 5 8zm0-2.5a.5.5 0 0 1 .5-.5h7a.5.5 0 0 1 0 1h-7a.5.5 0 0 1-.5-.5zm0 5a.5.5 0 0 1 .5-.5h7a.5.5 0 0 1 0 1h-7a.5.5 0 0 1-.5-.5zm-1-5a.5.5 0 1 1-1 0 .5.5 0 0 1 1 0zM4 8a.5.5 0 1 1-1 0 .5.5 0 0 1 1 0zm0 2.5a.5.5 0 1 1-1 0 .5.5 0 0 1 1 0z"/>
+                        </svg>
+                        Dummy Set 5
+                    </a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link pinned" aria-current="page" href="#">
+                        <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-card-list" viewBox="0 0 16 16">
+                            <path d="M14.5 3a.5.5 0 0 1 .5.5v9a.5.5 0 0 1-.5.5h-13a.5.5 0 0 1-.5-.5v-9a.5.5 0 0 1 .5-.5h13zm-13-1A1.5 1.5 0 0 0 0 3.5v9A1.5 1.5 0 0 0 1.5 14h13a1.5 1.5 0 0 0 1.5-1.5v-9A1.5 1.5 0 0 0 14.5 2h-13z"/>
+                            <path d="M5 8a.5.5 0 0 1 .5-.5h7a.5.5 0 0 1 0 1h-7A.5.5 0 0 1 5 8zm0-2.5a.5.5 0 0 1 .5-.5h7a.5.5 0 0 1 0 1h-7a.5.5 0 0 1-.5-.5zm0 5a.5.5 0 0 1 .5-.5h7a.5.5 0 0 1 0 1h-7a.5.5 0 0 1-.5-.5zm-1-5a.5.5 0 1 1-1 0 .5.5 0 0 1 1 0zM4 8a.5.5 0 1 1-1 0 .5.5 0 0 1 1 0zm0 2.5a.5.5 0 1 1-1 0 .5.5 0 0 1 1 0z"/>
+                        </svg>
+                        Dummy Set 6
+                    </a>
+                </li>
+            </ul>
+
+        </div>
+    </nav>
+
+        <main class="col-md-9 col-lg-10 px-md-4 ms-auto text-black pt-5">
+            <!-- cannot create folder alert Start Here-->
+
+            <!-- cannot create folder alert End Here-->
+
+            <div class="greetings d-flex justify-content-center">
+                <h1 style="font-size: 80px">Welcome, {{ User }}</h1>
+            </div>
+             <div class="container">
+                <div class="d-flex align-items-center justify-content-between">
+
+                        <nav aria-label="breadcrumb" class="align-items-center">
+                            <ol class="breadcrumb align-items-center">
+
+                                {% for ele in urllist %}
+                                    {% if ele == current %}
+                                        <li class="breadcrumb-item active" aria-current="page" >{{ ele.0 }}</li>
+                                    {% else %}
+                                        <li class="breadcrumb-item"><a href="http://127.0.0.1:8000/{% if is_dashboard == True %}folders{% endif %}{% if is_favourite == True %}favourites{% endif %}{% if is_archived == True %}archive{% endif %}/{{ ele.1 }}">{{ ele.0 }}</a></li>
+                                    {% endif %}
+                                {% endfor %}
+{#                                <li class="breadcrumb-item"><a href="#">Home</a></li>#}
+{#                                <li class="breadcrumb-item active" aria-current="page">Nirma</li>#}
+                            </ol>
+                        </nav>
+                    <div class="d-flex">
+                        <button type="button" class="btn btn-danger" data-bs-toggle="modal" data-bs-target="#folder_deletion_modal">Delete This Folder</button>
+                        <button class="btn btn-success ms-2"  data-bs-toggle="modal" data-bs-target="#folderModal">Create New Folder</button>
+                    </div>
+                </div>
+                <hr>
+{#                 my main content will come here #}
+                <div class="container py-5">
+                    <div class="row align-items-center justify-content-center" id="docsview">
+{#                        For Folders #}
+                        {% for item in data %}
+                            <div class="card mycard" style="width: 18rem; height:14rem;">
+                            <div class="fs-2">
+                                <svg xmlns="http://www.w3.org/2000/svg" width="96" height="96" fill="currentColor" class="card-img-top bi bi-folder pt-4" viewBox="0 0 16 16" >
+                                    <path d="M.54 3.87.5 3a2 2 0 0 1 2-2h3.672a2 2 0 0 1 1.414.586l.828.828A2 2 0 0 0 9.828 3h3.982a2 2 0 0 1 1.992 2.181l-.637 7A2 2 0 0 1 13.174 14H2.826a2 2 0 0 1-1.991-1.819l-.637-7a1.99 1.99 0 0 1 .342-1.31zM2.19 4a1 1 0 0 0-.996 1.09l.637 7a1 1 0 0 0 .995.91h10.348a1 1 0 0 0 .995-.91l.637-7A1 1 0 0 0 13.81 4H2.19zm4.69-1.707A1 1 0 0 0 6.172 2H2.5a1 1 0 0 0-1 .981l.006.139C1.72 3.042 1.95 3 2.19 3h5.396l-.707-.707z"/>
+                                </svg>
+                            </div>
+                            <div class="card-body">
+                                <h4 class="card-title"><a href="http://127.0.0.1:8000/{% if is_dashboard == True %}folders{% endif %}{% if is_favourite == True %}favourites{% endif %}{% if is_archived == True %}archive{% endif %}/{{ folder }}-{{ item.0 }}" style="text-decoration:none;color:black">{{ item.0 }}</a></h4>
+
+                                <p class="card-text" style="color:#7A7A7A"> {{ item.1 }}</p>
+                            </div>
+                        </div>
+                        {% endfor %}
+
+{#                        For Tables/Sets #}
+                        {% for item in table_data %}
+                            <div class="card mycard" style="width: 18rem; height:14rem;">
+                            <div class="fs-2">
+                                <svg xmlns="http://www.w3.org/2000/svg" width="96" height="96" fill="currentColor" class="card-img-top bi bi-file-earmark pt-4" viewBox="0 0 16 16">
+                                    <path d="M14 4.5V14a2 2 0 0 1-2 2H4a2 2 0 0 1-2-2V2a2 2 0 0 1 2-2h5.5L14 4.5zm-3 0A1.5 1.5 0 0 1 9.5 3V1H4a1 1 0 0 0-1 1v12a1 1 0 0 0 1 1h8a1 1 0 0 0 1-1V4.5h-2z"/>
+                                </svg>
+                            </div>
+                            <div class="card-body">
+                                <h4 class="card-title"><a href="http://127.0.0.1:8000/{% if is_archived == True %}archive{% endif %}view/{{ folder }}${{ item.0 }}-{{ item.1 }}" style="text-decoration:none;color:black">{{ item.0 }}</a></h4>
+
+                                <p class="card-text" style="color:#7A7A7A"> {{ item.1 }}</p>
+                            </div>
+                        </div>
+                        {% endfor %}
+
+{#                        Dummy Data#}
+
+{#                        <div class="card mycard" style="width: 18rem; height:14rem;">#}
+{#                            <div class="fs-2">#}
+{#                                <svg xmlns="http://www.w3.org/2000/svg" width="96" height="96" fill="currentColor" class="card-img-top bi bi-folder pt-4" viewBox="0 0 16 16" >#}
+{#                                    <path d="M.54 3.87.5 3a2 2 0 0 1 2-2h3.672a2 2 0 0 1 1.414.586l.828.828A2 2 0 0 0 9.828 3h3.982a2 2 0 0 1 1.992 2.181l-.637 7A2 2 0 0 1 13.174 14H2.826a2 2 0 0 1-1.991-1.819l-.637-7a1.99 1.99 0 0 1 .342-1.31zM2.19 4a1 1 0 0 0-.996 1.09l.637 7a1 1 0 0 0 .995.91h10.348a1 1 0 0 0 .995-.91l.637-7A1 1 0 0 0 13.81 4H2.19zm4.69-1.707A1 1 0 0 0 6.172 2H2.5a1 1 0 0 0-1 .981l.006.139C1.72 3.042 1.95 3 2.19 3h5.396l-.707-.707z"/>#}
+{#                                </svg>#}
+{#                            </div>#}
+{#                            <div class="card-body">#}
+{#                                <h4 class="card-title">Nirma</h4>#}
+{#                                <p class="card-text"> make up the bulk of the card's content.</p>#}
+{#                            </div>#}
+{#                        </div>#}
+{##}
+{#                        <div class="card mycard" style="width: 18rem; height:14rem;">#}
+{#                            <div class="fs-2">#}
+{#                                <svg xmlns="http://www.w3.org/2000/svg" width="96" height="96" fill="currentColor" class="card-img-top bi bi-file-earmark pt-4" viewBox="0 0 16 16">#}
+{#                                    <path d="M14 4.5V14a2 2 0 0 1-2 2H4a2 2 0 0 1-2-2V2a2 2 0 0 1 2-2h5.5L14 4.5zm-3 0A1.5 1.5 0 0 1 9.5 3V1H4a1 1 0 0 0-1 1v12a1 1 0 0 0 1 1h8a1 1 0 0 0 1-1V4.5h-2z"/>#}
+{#                                </svg>#}
+{#                            </div>#}
+{#                            <div class="card-body">#}
+{#                                <h4 class="card-title">CSE 24 students</h4>#}
+{#                                <p class="card-text">Student Data for BTech CSE '24</p>#}
+{#                            </div>#}
+{#                        </div>#}
+
+{#                        Dummy Data Over#}
+                    </div>
+                </div>
+             </div>
+        </main>
+
+    </div>
+</div>
+
+<!--</section>-->
+
+
+<!-- folder Modal -->
+<div class="modal" id="folderModal"  data-bs-backdrop="static" data-bs-keyword="false" role="dialog" tabindex="-1" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered modal-lg">
+        <div class="modal-content rounded-6 shadow">
+            <div class="modal-header border-bottom-0">
+                <h4 class="modal-title">Create New Folder</h4>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body">
+                <form method="post" action="{% url 'create folder' %}">
+                    {% csrf_token %}
+
+
+
+                    <div class=" form-floating mb-3">
+                        <input type="text" class="form-control" name="foldername" id="foldername" maxlength="20" placeholder="somename">
+                        <label for="foldername" class="form-label">What will it be called?</label>
+
+
+                    </div>
+                    <div class="form-floating mb-3">
+                        <textarea class="form-control" name="folderbrief" id="folderbrief" maxlength="50" placeholder="placeholder"></textarea>
+                        <label for="folderbrief" class="form-label">A Brief about it</label>
+
+                    </div>
+
+                    <div class="d-flex justify-content-center">
+                        <input type="text" name="pathto" id="pathto" class="visually-hidden" value='{{ current.1 }}' >
+                        <button type="submit" class="btn btn-green btn-block btn-lg w-100" id="foldercreationbutton">Create</button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+<!-- folder Modal  End-->
+
+
+{# Delete Folders Modal #}
+
+<div class="modal fade" id="folder_deletion_modal" tabindex="-1" aria-hidden="true">
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="exampleModalLabel">Delete Folder?</h5>
+        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+      </div>
+      <div class="modal-body">
+        <h5>This will permanently remove all the Sets (even Archived) and Folders within it.</h5>
+          <br>
+        <h5>Do You Want To Proceed?</h5>
+        <small class="text-muted">Note: This Action is not Reversible. Data Lost cannot be Retrieved</small>
+      </div>
+      <div class="modal-footer">
+            <form method="get" action="{% url 'delete folder' folder %}">
+                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                <button type="submit" class="btn btn-danger">Yes, Delete !</button>
+            </form>
+      </div>
+    </div>
+  </div>
+</div>
+
+{# Delete Folders Modal end#}
+
+
+
+
+
+
+
+
+
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/js/bootstrap.bundle.min.js" integrity="sha384-ka7Sk0Gln4gmtz2MlQnikT1wXgYsOg+OMhuP+IlRH9sENBO0LRn5q+8nbTov4+1p" crossorigin="anonymous"></script>
+
+</body>
+</html>
